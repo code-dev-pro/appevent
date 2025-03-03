@@ -3,7 +3,6 @@
 import { Providers } from "./providers";
 import "./globals.css";
 import { metadata } from "./metadata";
-
 // const inter = Inter({
 //   subsets: ["latin"],
 //   variable: "--font-inter",
