@@ -1,10 +1,13 @@
 import { prisma } from "@/lib/prisma";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+type Props = {
+  params: {
+    id: string;
+  };
+};
+
+export async function GET(_: NextRequest, { params }: Props) {
   try {
     const event = await prisma.event.findUnique({
       where: {
@@ -13,26 +16,23 @@ export async function GET(
     });
 
     if (!event) {
-      return NextResponse.json(
+      return Response.json(
         { error: "Événement non trouvé" },
         { status: 404 }
       );
     }
 
-    return NextResponse.json(event);
+    return Response.json(event);
   } catch (error) {
-    console.error("Erreur lors de la récupération de l'événement:", error);
-    return NextResponse.json(
-      { error: "Erreur lors de la récupération de l'événement" },
+    console.error("Erreur lors de la récupération de l&apos;événement:", error);
+    return Response.json(
+      { error: "Erreur lors de la récupération de l&apos;événement" },
       { status: 500 }
     );
   }
 }
 
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function PUT(request: NextRequest, { params }: Props) {
   try {
     const data = await request.json();
     const event = await prisma.event.update({
@@ -49,20 +49,17 @@ export async function PUT(
       },
     });
 
-    return NextResponse.json(event);
+    return Response.json(event);
   } catch (error) {
-    console.error("Erreur lors de la mise à jour de l'événement:", error);
-    return NextResponse.json(
-      { error: "Erreur lors de la mise à jour de l'événement" },
+    console.error("Erreur lors de la mise à jour de l&apos;événement:", error);
+    return Response.json(
+      { error: "Erreur lors de la mise à jour de l&apos;événement" },
       { status: 500 }
     );
   }
 }
 
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(_: NextRequest, { params }: Props) {
   try {
     await prisma.event.delete({
       where: {
@@ -70,11 +67,11 @@ export async function DELETE(
       },
     });
 
-    return new NextResponse(null, { status: 204 });
+    return new Response(null, { status: 204 });
   } catch (error) {
-    console.error("Erreur lors de la suppression de l'événement:", error);
-    return NextResponse.json(
-      { error: "Erreur lors de la suppression de l'événement" },
+    console.error("Erreur lors de la suppression de l&apos;événement:", error);
+    return Response.json(
+      { error: "Erreur lors de la suppression de l&apos;événement" },
       { status: 500 }
     );
   }
