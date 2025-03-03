@@ -1,44 +1,43 @@
-import { prisma } from "@/lib/prisma";
 import { NextRequest } from "next/server";
+import { prisma } from "@/lib/prisma";
 
-type Props = {
-  params: {
-    id: string;
-  };
-};
+// GET /api/events/[id]
+export async function GET(request: NextRequest) {
+  const id = request.nextUrl.pathname.split('/').pop();
 
-export async function GET(_: NextRequest, { params }: Props) {
   try {
     const event = await prisma.event.findUnique({
-      where: {
-        id: params.id,
-      },
+      where: { id },
     });
 
     if (!event) {
-      return Response.json(
-        { error: "Événement non trouvé" },
-        { status: 404 }
+      return new Response(
+        JSON.stringify({ error: "Événement non trouvé" }),
+        { status: 404, headers: { "Content-Type": "application/json" } }
       );
     }
 
-    return Response.json(event);
+    return new Response(
+      JSON.stringify(event),
+      { status: 200, headers: { "Content-Type": "application/json" } }
+    );
   } catch (error) {
     console.error("Erreur lors de la récupération de l&apos;événement:", error);
-    return Response.json(
-      { error: "Erreur lors de la récupération de l&apos;événement" },
-      { status: 500 }
+    return new Response(
+      JSON.stringify({ error: "Erreur lors de la récupération de l&apos;événement" }),
+      { status: 500, headers: { "Content-Type": "application/json" } }
     );
   }
 }
 
-export async function PUT(request: NextRequest, { params }: Props) {
+// PUT /api/events/[id]
+export async function PUT(request: NextRequest) {
+  const id = request.nextUrl.pathname.split('/').pop();
+
   try {
     const data = await request.json();
     const event = await prisma.event.update({
-      where: {
-        id: params.id,
-      },
+      where: { id },
       data: {
         name: data.name,
         desc: data.desc,
@@ -49,30 +48,34 @@ export async function PUT(request: NextRequest, { params }: Props) {
       },
     });
 
-    return Response.json(event);
+    return new Response(
+      JSON.stringify(event),
+      { status: 200, headers: { "Content-Type": "application/json" } }
+    );
   } catch (error) {
     console.error("Erreur lors de la mise à jour de l&apos;événement:", error);
-    return Response.json(
-      { error: "Erreur lors de la mise à jour de l&apos;événement" },
-      { status: 500 }
+    return new Response(
+      JSON.stringify({ error: "Erreur lors de la mise à jour de l&apos;événement" }),
+      { status: 500, headers: { "Content-Type": "application/json" } }
     );
   }
 }
 
-export async function DELETE(_: NextRequest, { params }: Props) {
+// DELETE /api/events/[id]
+export async function DELETE(request: NextRequest) {
+  const id = request.nextUrl.pathname.split('/').pop();
+
   try {
     await prisma.event.delete({
-      where: {
-        id: params.id,
-      },
+      where: { id },
     });
 
     return new Response(null, { status: 204 });
   } catch (error) {
     console.error("Erreur lors de la suppression de l&apos;événement:", error);
-    return Response.json(
-      { error: "Erreur lors de la suppression de l&apos;événement" },
-      { status: 500 }
+    return new Response(
+      JSON.stringify({ error: "Erreur lors de la suppression de l&apos;événement" }),
+      { status: 500, headers: { "Content-Type": "application/json" } }
     );
   }
 }
