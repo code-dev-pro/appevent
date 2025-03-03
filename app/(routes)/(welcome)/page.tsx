@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@heroui/react";
 import Link from "next/link";
 
 export default function WelcomePage() {
@@ -15,14 +14,14 @@ export default function WelcomePage() {
         </p>
         <div className="flex gap-4 justify-center">
           <Link href="/events">
-            <Button color="primary" size="lg">
+            <button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg text-lg">
               Voir les événements
-            </Button>
+            </button>
           </Link>
           <Link href="/events/new">
-            <Button color="secondary" size="lg">
+            <button className="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg text-lg">
               Créer un événement
-            </Button>
+            </button>
           </Link>
         </div>
       </div>
