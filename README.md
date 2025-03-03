@@ -1,40 +1,117 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# APP Event
 
-## Getting Started
+Application de gestion d'événements construite avec Next.js, Prisma et Neon Database.
 
-First, run the development server:
+## 🛠 Stack Technique
 
+- **Framework**: [Next.js](https://nextjs.org)
+- **Base de données**: [Neon (PostgreSQL serverless)](https://neon.tech)
+- **ORM**: [Prisma](https://prisma.io)
+- **Langage**: TypeScript
+- **Styling**: [Tailwind CSS](https://tailwindcss.com)
+
+## 📋 Prérequis
+
+- Node.js 18+ 
+- Yarn ou npm
+- Un compte [Neon](https://neon.tech) pour la base de données
+
+## 🚀 Installation
+
+1. **Cloner le projet**
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone git@github.com:code-dev-pro/appevent.git
+cd appevent
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. **Installer les dépendances**
+```bash
+yarn install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. **Configuration de l'environnement**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Créer un fichier `.env` à la racine du projet :
+```env
+DATABASE_URL="postgresql://user:password@ep-xxx-xxx.region.aws.neon.tech/neondb?sslmode=require"
+```
 
-## Learn More
+4. **Initialiser la base de données**
+```bash
+# Générer le client Prisma
+yarn prisma generate
 
-To learn more about Next.js, take a look at the following resources:
+# Appliquer les migrations
+yarn prisma migrate dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📝 Structure de la Base de Données
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Model Event
+```prisma
+model Event {
+  id         String   @id @default(uuid())
+  name       String
+  desc       String
+  picture    String
+  address    Json?    
+  startAt    DateTime
+  endAt      DateTime
+  createdAt  DateTime @default(now())
+}
+```
 
-## Deploy on Vercel
+## 🔄 Workflow Prisma
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. **Modifier le schéma**
+   - Éditer `prisma/schema.prisma`
+   - Ajouter/modifier les modèles selon vos besoins
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+2. **Créer une migration**
+```bash
+yarn prisma migrate dev --name nom_de_la_migration
+```
 
+3. **Appliquer les migrations en production**
+```bash
+yarn prisma migrate deploy
+```
 
-yarn add prisma @prisma/client
-yarn prisma init
+## 🌩 Configuration Neon
+
+1. Créer un projet sur [Neon](https://neon.tech)
+2. Dans les paramètres du projet, récupérer l'URL de connexion
+3. Configurer la variable `DATABASE_URL` dans `.env`
+4. Activer le "Connection Pooling" pour de meilleures performances
+
+## 💻 Développement
+
+```bash
+# Lancer le serveur de développement
+yarn dev
+
+# Ouvrir Prisma Studio (interface d'administration de la BDD)
+yarn prisma studio
+```
+
+## 🚀 Déploiement
+
+1. **Préparer la base de données**
+```bash
+yarn prisma migrate deploy
+```
+
+2. **Construire l'application**
+```bash
+yarn build
+```
+
+## 📚 Ressources Utiles
+
+- [Documentation Prisma](https://www.prisma.io/docs)
+- [Documentation Neon](https://neon.tech/docs)
+- [Documentation Next.js](https://nextjs.org/docs)
+
+## 🤝 Contribution
+
+Les contributions sont les bienvenues ! N'hésitez pas à ouvrir une issue ou un pull request.
