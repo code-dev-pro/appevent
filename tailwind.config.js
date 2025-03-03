@@ -7,7 +7,11 @@ module.exports = {
     "./node_modules/@heroui/**/*.{js,ts,jsx,tsx}"
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        poppins: ["var(--font-poppins)", "sans-serif"],
+      },
+    },
   },
   darkMode: "class",
   plugins: [],
