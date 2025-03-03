@@ -1,26 +1,31 @@
 # APP Event
 
-Application de gestion d'événements construite avec Next.js, Prisma et Neon Database.
+Application de gestion d'événements construite avec Next.js, Prisma et HeroUI.
 
-## 🛠 Stack Technique
+## Stack Technique
 
-- **Framework**: [Next.js](https://nextjs.org)
-- **Base de données**: [Neon (PostgreSQL serverless)](https://neon.tech)
-- **ORM**: [Prisma](https://prisma.io)
-- **Langage**: TypeScript
-- **Styling**: [Tailwind CSS](https://tailwindcss.com)
+- **Frontend**:
+  - Next.js 15.2
+  - React 19
+  - TailwindCSS 3.4.17
+  - HeroUI pour les composants UI
+  - Framer Motion pour les animations
 
-## 📋 Prérequis
+- **Backend**:
+  - Prisma avec PostgreSQL (Neon)
+  - API Routes Next.js
 
-- Node.js 18+ 
-- Yarn ou npm
-- Un compte [Neon](https://neon.tech) pour la base de données
+## Prérequis
 
-## 🚀 Installation
+- Node.js 18+
+- Yarn
+- Base de données PostgreSQL (nous utilisons Neon)
 
-1. **Cloner le projet**
+## Installation
+
+1. **Cloner le repository**
 ```bash
-git clone git@github.com:code-dev-pro/appevent.git
+git clone [votre-repo]
 cd appevent
 ```
 
@@ -33,85 +38,76 @@ yarn install
 
 Créer un fichier `.env` à la racine du projet :
 ```env
-DATABASE_URL="postgresql://user:password@ep-xxx-xxx.region.aws.neon.tech/neondb?sslmode=require"
+DATABASE_URL="postgresql://[user]:[password]@[host]:[port]/[database]"
 ```
 
 4. **Initialiser la base de données**
 ```bash
-# Générer le client Prisma
-yarn prisma generate
-
-# Appliquer les migrations
-yarn prisma migrate dev
+npx prisma generate
+npx prisma db push
 ```
 
-## 📝 Structure de la Base de Données
+## Structure du Projet
 
-### Model Event
-```prisma
-model Event {
-  id         String   @id @default(uuid())
-  name       String
-  desc       String
-  picture    String
-  address    Json?    
-  startAt    DateTime
-  endAt      DateTime
-  createdAt  DateTime @default(now())
-}
+```
+appevent/
+├── app/                    # Dossier principal Next.js 13+
+│   ├── layout.tsx         # Layout principal
+│   ├── page.tsx           # Page d'accueil
+│   └── providers.tsx      # Providers React (HeroUI, etc.)
+├── prisma/
+│   └── schema.prisma      # Schéma de la base de données
+└── public/                # Assets statiques
 ```
 
-## 🔄 Workflow Prisma
+## Configuration Tailwind et HeroUI
 
-1. **Modifier le schéma**
-   - Éditer `prisma/schema.prisma`
-   - Ajouter/modifier les modèles selon vos besoins
+Le projet utilise Tailwind CSS 3.4.17 avec HeroUI pour les composants. La configuration se trouve dans :
 
-2. **Créer une migration**
-```bash
-yarn prisma migrate dev --name nom_de_la_migration
-```
+- `tailwind.config.js` : Configuration Tailwind
+- `postcss.config.js` : Configuration PostCSS
+- `app/globals.css` : Styles globaux
 
-3. **Appliquer les migrations en production**
-```bash
-yarn prisma migrate deploy
-```
+## Développement
 
-## 🌩 Configuration Neon
-
-1. Créer un projet sur [Neon](https://neon.tech)
-2. Dans les paramètres du projet, récupérer l'URL de connexion
-3. Configurer la variable `DATABASE_URL` dans `.env`
-4. Activer le "Connection Pooling" pour de meilleures performances
-
-## 💻 Développement
+Pour lancer le serveur de développement :
 
 ```bash
-# Lancer le serveur de développement
 yarn dev
-
-# Ouvrir Prisma Studio (interface d'administration de la BDD)
-yarn prisma studio
 ```
 
-## 🚀 Déploiement
+L'application sera disponible sur `http://localhost:3000`
 
-1. **Préparer la base de données**
-```bash
-yarn prisma migrate deploy
-```
+## Déploiement
 
-2. **Construire l'application**
+1. **Build de l'application**
 ```bash
 yarn build
 ```
 
-## 📚 Ressources Utiles
+2. **Démarrer en production**
+```bash
+yarn start
+```
 
-- [Documentation Prisma](https://www.prisma.io/docs)
-- [Documentation Neon](https://neon.tech/docs)
-- [Documentation Next.js](https://nextjs.org/docs)
+## Gestion des Tags
 
-## 🤝 Contribution
+L'application utilise Zustand pour la gestion d'état des tags avec :
+- Persistance localStorage
+- Actions pour ajouter/supprimer/modifier les tags
+- Sélection/désélection des tags
 
-Les contributions sont les bienvenues ! N'hésitez pas à ouvrir une issue ou un pull request.
+## Base de données
+
+Nous utilisons Prisma avec une base de données PostgreSQL hébergée sur Neon. Le schéma inclut :
+- Modèle Event pour les événements
+- Relations et champs typés
+- Migrations automatiques
+
+## Contribution
+
+1. Fork le projet
+2. Créer une branche (`git checkout -b feature/AmazingFeature`)
+3. Commit les changements (`git commit -m 'Add some AmazingFeature'`)
+4. Push sur la branche (`git push origin feature/AmazingFeature`)
+5. Ouvrir une Pull Request
