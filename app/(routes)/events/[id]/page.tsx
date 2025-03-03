@@ -4,6 +4,7 @@ import { Card, CardBody, CardHeader } from "@heroui/react";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Event } from "@prisma/client";
+import Image from "next/image";
 
 export default function EventPage() {
   const { id } = useParams();
@@ -43,11 +44,15 @@ export default function EventPage() {
         </CardHeader>
         <CardBody>
           {event.picture && (
-            <img
-              src={event.picture}
-              alt={event.name}
-              className="w-full h-64 object-cover rounded-lg mb-6"
-            />
+            <div className="relative w-full h-64 mb-6">
+              <Image
+                src={event.picture}
+                alt={event.name}
+                fill
+                className="object-cover rounded-lg"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
+            </div>
           )}
           <p className="text-gray-600 whitespace-pre-wrap">{event.desc}</p>
           

@@ -37,7 +37,7 @@ export default function NewEventPage() {
       });
 
       if (!response.ok) {
-        throw new Error("Erreur lors de la création de l'événement");
+        throw new Error("Erreur lors de la création de l&apos;événement");
       }
 
       router.push("/events");
@@ -57,14 +57,14 @@ export default function NewEventPage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                Nom de l'événement
+                Nom de l&apos;événement
               </label>
               <Input
                 id="name"
                 name="name"
                 type="text"
                 required
-                placeholder="Nom de l'événement"
+                placeholder="Nom de l&apos;événement"
               />
             </div>
 
@@ -76,7 +76,7 @@ export default function NewEventPage() {
                 id="desc"
                 name="desc"
                 required
-                placeholder="Description de l'événement"
+                placeholder="Description de l&apos;événement"
                 rows={4}
               />
             </div>
@@ -89,7 +89,7 @@ export default function NewEventPage() {
                 id="picture"
                 name="picture"
                 type="url"
-                placeholder="URL de l'image"
+                placeholder="URL de l&apos;image"
               />
             </div>
 
@@ -186,7 +186,7 @@ export default function NewEventPage() {
                 color="primary"
                 disabled={loading}
               >
-                {loading ? "Création..." : "Créer l'événement"}
+                {loading ? "Création..." : "Créer l&apos;événement"}
               </Button>
             </div>
           </form>
